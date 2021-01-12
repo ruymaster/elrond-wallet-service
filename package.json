@@ -1,0 +1,13 @@
+{
+  "name": "elrond-wallet-service",
+  "version": "0.0.9",
+  "main": "index.js",
+  "repository": "https://github.com/ruymaster/elrond-wallet-service",
+  "author": "ruymaster <mecury1984@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "json-rpc-2.0": "^0.2.15"
+  }
+}
