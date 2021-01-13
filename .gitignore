@@ -1,5 +1,5 @@
 # Wallet Data
-.keys/*.json
+# .keys/*.json
 # Logs
 logs
 *.log
