@@ -8,7 +8,13 @@ module.exports = {
     createAccount: function (password) {
         let account = new core.account();
         let keyFile = account.initNewAccountFromPassword(password);
-        let keyFileJson = JSON.stringify(keyFile, null, 4);        
+        let keyFileJson = JSON.stringify(keyFile, null, 4); 
+        // check if key directory exists
+        const dir = "./.keys";
+        if (!fs.existsSync(dir)) {            
+            console.log('Directory not found. .keys directory is created. ');
+            fs.mkdirSync(dir);
+        }
         fs.writeFileSync("./.keys/"+account.address()+".json", keyFileJson);
         console.log("-- account was created", account.address());
         return account.address();
