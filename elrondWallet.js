@@ -10,6 +10,7 @@ module.exports = {
         let keyFile = account.initNewAccountFromPassword(password);
         let keyFileJson = JSON.stringify(keyFile, null, 4);        
         fs.writeFileSync("./.keys/"+account.address()+".json", keyFileJson);
+        console.log("-- account was created", account.address());
         return account.address();
     },
     sendEGLD: async function(fromAddress, toAddress, amount, password){
@@ -47,6 +48,9 @@ module.exports = {
             
         if(!jsonResult || !jsonResult.data || !jsonResult.data.txHash)
             return {error:"transaction is failed"};
+        
+        console.log("---transaction is success!", jsonResult.data.txHash);
+
         return jsonResult.data.txHash;
 
     }
