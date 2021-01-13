@@ -1,5 +1,5 @@
 let config = {
-    port: 8080,    
+    port: 8380,
     baseUrl: 'http://127.0.0.1:8080',
     elrondAPIUrl: 'https://api.elrond.com/'
 };
