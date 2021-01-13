@@ -3,7 +3,8 @@ const bodyParser = require("body-parser");
 const { JSONRPCServer } = require("json-rpc-2.0");
 const core = require("@elrondnetwork/elrond-core-js");
 const fs = require("fs");
-
+let config = require('./config')();
+let elrondWallet = require('./elrondWallet');
 
 
 const server = new JSONRPCServer();
@@ -35,37 +36,10 @@ app.post("/json-rpc", (req, res) => {
 
 function createAccount(password)
 {
-    let account = new core.account();
-    let keyFile = account.initNewAccountFromPassword(password);
-    let keyFileJson = JSON.stringify(keyFile, null, 4);
-    fs.writeFileSync("./.keys/"+account.address()+".json", keyFileJson);
-    return account.address();
+    return elrondWallet.createAccount(password);    
 }
 
 function sendEGLD(fromAddress, toAddress, amount, password){
-    let keyFileJson = fs.readFileSync("./.keys/"+fromAddress+".json", { encoding: "utf8" }).trim();
-    let keyFileObject = JSON.parse(keyFileJson);
-
-    let account = new core.account();
-    account.loadFromKeyFile(keyFileObject, password);
-    console.log("---from address: ", account.address());
-    let address  = account.address(); 
-    let transaction = new core.transaction(
-        2,                // nonce
-        address,         // sender
-        toAddress,         // receiver
-        amount, // value
-        1000000000,           // gas price
-        70000,                // gas limit
-        "hi",      // data (not encoded)
-        "1",                  // chain ID
-        1                     // tx version
-    );
-
-    let serializedTransaction = transaction.prepareForSigning();
-    transaction.signature = account.sign(serializedTransaction);
-    let signedTransaction = transaction.prepareForNode();
-    let signedTransactionJson = JSON.stringify(signedTransaction, null, 4);
-return signedTransaction;
+    return elrondWallet.sendEGLD(fromAddress, toAddress, amount, password);
 }
-app.listen(8000);
+app.listen(config.port);
